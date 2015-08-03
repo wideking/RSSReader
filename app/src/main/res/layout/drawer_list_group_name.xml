@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_drawer_list_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_drawer"
+        android:layout_marginLeft="@dimen/margin_drawer_item_group_name"
+        android:layout_marginRight="@dimen/margin_drawer_item_group_name"
+        android:alpha="0.54"
+        android:fontFamily="Roboto Medium"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/padding_drawer_item_group_name"
+        android:paddingTop="@dimen/padding_drawer_item_group_name"
+
+        android:textColor="#000000"
+        android:textSize="@dimen/font_drawer" />
+
+</LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+
+        android:id="@+id/tv_feed_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.54"
+        android:fontFamily="Roboto Medium"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding_item"
+
+        android:paddingLeft="@dimen/padding_item"
+        android:paddingTop="@dimen/padding_item"
+        android:textColor="#000000"
+
+        android:textSize="@dimen/font_list_feed_name">
+
+    </TextView>
+
+    <TextView
+
+
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_feed_name"
+
+        android:alpha="0.87"
+        android:fontFamily="Roboto Medium"
+
+
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_item"
+        android:text="Category test teste test test test test test test"
+        android:textColor="#000000"
+        android:textSize="@dimen/font_drawer"
+        android:textStyle="bold"
+
+        >
+
+    </TextView>
+
+    <ImageView
+
+        android:id="@+id/iv_image"
+        android:layout_width="@dimen/width_picture"
+        android:layout_height="@dimen/width_picture"
+        android:layout_below="@id/tv_title"
+        android:padding="@dimen/padding_item"
+        android:scaleType="centerCrop"
+
+
+        android:src="@drawable/abc_ab_share_pack_holo_light"
+
+        />
+
+
+    <TextView
+
+
+        android:id="@+id/tv_description"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tv_title"
+        android:layout_toRightOf="@id/iv_image"
+        android:alpha="0.87"
+
+        android:fontFamily="Roboto Medium"
+        android:gravity="center"
+        android:padding="@dimen/padding_item"
+        android:text="Test test test test test testTest test test test test testTest test test test test test Test test test test test testTest test test test test test"
+        android:textColor="#000000"
+        android:textSize="@dimen/font_list_description"></TextView>
+
+
+</RelativeLayout>

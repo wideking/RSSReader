@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Application</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="loading">Loding News! Please Wait!</string>
+    <string name="settings_add_source_name">Name : </string>
+    <string name="settings_add_source_url">URL : </string>
+    <string name="settings_add_source_category">Category : </string>
+    <string name="settings_add_source_use">Use feed : </string>
+
+    <string name="add_news_sources">You haven\'t add any RSS feed! Click here to add new RSS source!</string>
+    <string name="bt_settings_edit_sources_text">Save changes</string>
+    <string name="string_edit_feed_data_changed">Changes are saved!</string>
+    <string name="string_edit_feed_data_not_changed">No changes made!</string>
+    <string name="bt_settings_edit_sources_delete">Remove</string>
+    <string name="delete_feed_text">You sure you want to delete \n feed with URL : </string>
+    <string name="delete_feed_button_yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="feed_deleted_successfully">Feed was deleted successfully!</string>
+    <string name="feed_deleted_failed">Feed was not deleted!</string>
+    <string name="settings_updated">Settings have been updated!</string>
+    <string name="settings_no_changes">Settings have not been changed!</string>
+    <string name="bt_settings_add_feed">Save feed</string>
+
+
+    <string-array name="string_edit_sources">
+        <item>@string/settings_add_source_name</item>
+        <item>@string/settings_add_source_url </item>
+        <item>@string/settings_add_source_category</item>
+        <item>@string/settings_add_source_use</item>
+    </string-array>
+    <string-array name="string_settings">
+        <item>Edit feeds settings</item>
+        <item>Edit feeds sources</item>
+        <item>Add new feed source</item>
+    </string-array>
+
+    <string-array name="string_user_settings_array">
+        <item>@array/Default_category</item>
+        <item>@array/Update_interval</item>
+        <item>@array/Load_news_newer_than</item>
+
+    </string-array>
+    <string-array name="Default_category">
+        <item>Default category</item>
+        <item>Newest news</item>
+    </string-array>
+    <string-array name="Update_interval">
+        <item>Update interval</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="Load_news_newer_than">
+        <item>"Display news from last (days)"</item>
+        <item>1</item>
+    </string-array>
+
+
+</resources>
