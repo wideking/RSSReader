@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 //TODO Implement adding new sources with check if data is parseable and check if data exist.Tell user what is the problem.
 //TODO check XMLParsing, impelemnt way procceed on this input. done
-//TODO create Class for forking asyncTasks. http://developer.android.com/reference/android/os/AsyncTask.html#executeOnExecutor%28java.util.concurrent.Executor,%20Params...%29
+//TODO create Class for forking asyncTasks. http://developer.android.com/reference/android/os/AsyncTask.html#executeOnExecutor%28java.util.concurrent.Executor,%20Params...%29 http://stackoverflow.com/questions/31768081/how-to-wait-multiple-asynctask-to-finish-their-work
 //TODO when changing to landscape, load fragment that was displayed.
 public class MainActivity extends ActionBarActivity {
     static String URL_BUG_HR = "http://www.bug.hr/rss/vijesti/";
