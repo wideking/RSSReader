@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.Helper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class SQLDBHelper
-        extends SQLiteOpenHelper {
+import com.example.wideking.myapplication.R;
+import com.example.wideking.myapplication.sqlCommands.SQLCommandsSettings;
+
+public class SQLDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "NewsFeed.db";
     private static final int DATABASE_VERSION = Integer.valueOf(1);
-    protected static SQLiteDatabase db;
+    public static SQLiteDatabase db;
     private static Context context;
     private static SQLDBHelper dbInstance;
 

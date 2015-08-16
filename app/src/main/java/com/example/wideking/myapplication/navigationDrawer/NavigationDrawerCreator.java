@@ -1,8 +1,10 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.navigationDrawer;
 
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
+
+import com.example.wideking.myapplication.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.navigationDrawer;
 
 /**
  * Created by widek on 23.7.2015..

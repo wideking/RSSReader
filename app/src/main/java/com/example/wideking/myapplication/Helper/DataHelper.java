@@ -1,7 +1,13 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.Helper;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.wideking.myapplication.R;
+import com.example.wideking.myapplication.feed.FeedItem;
+import com.example.wideking.myapplication.news.News;
+import com.example.wideking.myapplication.sqlTables.SQLTableFeedSites;
+import com.example.wideking.myapplication.sqlTables.SQLTableNews;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +18,64 @@ import java.util.Date;
  * Helper class that stores all information from DB. This class is used for sending data between activities.
  * Created by widek on 24.7.2015..
  */
-public class DataHelperClass {
+public class DataHelper {
     private static ArrayList<FeedItem> feedItem = new ArrayList<>();
     private static ArrayList<News> newsList = new ArrayList<>();
+    private static boolean[] testFlags;
+    private static boolean URLExceptionFlag = false;
+    private static boolean parserExceptionFlag = false;
+    private static String messageURLExceptionFlag;
+    private static String messageParserExceptionFlag;
+    private static String problemURLExceptionFlag;
+    private static String problemParserExceptionFlag;
 
+    public static boolean isURLExceptionFlag() {
+        return URLExceptionFlag;
+    }
+
+    public static void setURLExceptionFlag(boolean URLExceptionFlag) {
+        DataHelper.URLExceptionFlag = URLExceptionFlag;
+    }
+
+    public static boolean isParserExceptionFlag() {
+        return parserExceptionFlag;
+    }
+
+    public static void setParserExceptionFlag(boolean parserExceptionFlag) {
+        DataHelper.parserExceptionFlag = parserExceptionFlag;
+    }
+
+    public static String getMessageURLExceptionFlag() {
+        return messageURLExceptionFlag;
+    }
+
+    public static void setMessageURLExceptionFlag(String messageURLExceptionFlag) {
+        DataHelper.messageURLExceptionFlag = messageURLExceptionFlag;
+    }
+
+    public static String getMessageParserExceptionFlag() {
+        return messageParserExceptionFlag;
+    }
+
+    public static void setMessageParserExceptionFlag(String messageParserExceptionFlag) {
+        DataHelper.messageParserExceptionFlag = messageParserExceptionFlag;
+    }
+
+    public static String getProblemURLExceptionFlag() {
+        return problemURLExceptionFlag;
+    }
+
+    public static void setProblemURLExceptionFlag(String problemURLExceptionFlag) {
+        DataHelper.problemURLExceptionFlag = problemURLExceptionFlag;
+    }
+
+    public static String getProblemParserExceptionFlag() {
+        return problemParserExceptionFlag;
+    }
+
+    public static void setProblemParserExceptionFlag(String problemParserExceptionFlag) {
+        DataHelper.problemParserExceptionFlag = problemParserExceptionFlag;
+    }
 
     /**
      * Private method that reads FeedSites table from SQL DB and stores information to the ArrayList<FeedItem>.
@@ -92,6 +152,7 @@ public class DataHelperClass {
             }
 
         }
+        Collections.sort(newsList, Collections.reverseOrder(new NewsComparator()));//Sorting news by date.
         return newsList;
 
     }
@@ -167,7 +228,7 @@ public class DataHelperClass {
      * @return Returns ArrayList<String> of categories for selected feeds.
      */
     public static ArrayList<String> getCategoriesFromFeed(Context context) {
-        feedItem = DataHelperClass.getSelectedFeed(context);
+        feedItem = DataHelper.getSelectedFeed(context);
         ArrayList<String> categories = new ArrayList<>();
         for (FeedItem item : feedItem) {
 
@@ -238,6 +299,39 @@ public class DataHelperClass {
 
     }
 
+    public static void setURLExceptionFlag(boolean URLExceptionFlag, String problem) {
+        DataHelper.URLExceptionFlag = URLExceptionFlag;
+        messageURLExceptionFlag = "Error happened while trying to open URL: ";
+        problemURLExceptionFlag = problem;
+    }
+
+    public static void setParserExceptionFlag(boolean parserExceptionFlag, String problem) {
+        DataHelper.parserExceptionFlag = parserExceptionFlag;
+        messageParserExceptionFlag = "Error happened while trying to parse";
+        problemParserExceptionFlag = problem;
+
+    }
+
+    /**
+     * Method for gehing testFlags.This method is used for reading results of test conducted by the parser.
+     *
+     * @return returns flags that describes results of parsing
+     */
+    public static boolean[] getTestFlags() {
+        return testFlags;
+
+    }
+
+    /**
+     * Method for setting testFlags.This method is used in parser when isTest flag is set.
+     *
+     * @param flags flags that describes results of parsing.
+     */
+    public static void setTestFlags(boolean[] flags) {
+        testFlags = flags;
+
+    }
+
     /**
      * Class that compares date of the news and returns integer value.
      */
@@ -249,5 +343,6 @@ public class DataHelperClass {
             return firstNews.getTime().compareTo(secondNews.getTime());
         }
     }
+
 
 }

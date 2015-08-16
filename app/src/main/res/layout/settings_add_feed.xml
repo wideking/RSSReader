@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_add_feed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
@@ -12,7 +13,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+        android:layout_marginLeft="@dimen/margin_add_feed"
+        android:layout_marginRight="@dimen/margin_add_feed"
+        android:layout_marginTop="@dimen/margin_add_feed_first_item"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
         android:gravity="center"
@@ -29,7 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_settings_add_feed_name"
         android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+        android:layout_marginLeft="@dimen/margin_add_feed"
+        android:layout_marginRight="@dimen/margin_add_feed"
+        android:layout_marginTop="@dimen/margin_add_feed_first_item"
         android:layout_toRightOf="@id/tv_settings_add_feed_name"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
@@ -45,19 +50,14 @@
     <TextView
         android:id="@+id/tv_settings_add_feed_url"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_settings_add_feed_name"
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
-
+        android:layout_margin="@dimen/margin_add_feed"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
-
         android:gravity="center"
         android:padding="@dimen/padding_item"
         android:text="@string/settings_add_source_url"
-
         android:textColor="#000000"
         android:textSize="@dimen/font_add_feed" />
 
@@ -67,8 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_settings_add_feed_url"
         android:layout_below="@id/et_settings_add_feed_name"
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+        android:layout_margin="@dimen/margin_add_feed"
         android:layout_toRightOf="@id/tv_settings_add_feed_url"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
@@ -86,8 +85,7 @@
         android:layout_height="wrap_content"
 
         android:layout_below="@id/tv_settings_add_feed_url"
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+        android:layout_margin="@dimen/margin_add_feed"
 
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
@@ -105,8 +103,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_settings_add_feed_category"
         android:layout_below="@id/et_settings_add_feed_url"
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+
+        android:layout_margin="@dimen/margin_add_feed"
         android:layout_toRightOf="@id/tv_settings_add_feed_category"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
@@ -116,6 +114,7 @@
         android:textColor="#000000"
         android:textSize="@dimen/font_add_feed"
 
+
         />
 
     <TextView
@@ -124,9 +123,8 @@
 
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_settings_add_feed_category"
+        android:layout_margin="@dimen/margin_add_feed"
 
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
         android:gravity="center"
@@ -144,8 +142,7 @@
         android:layout_alignBaseline="@id/tv_settings_add_feed_use_feed"
         android:layout_alignParentRight="true"
         android:layout_below="@id/actv_settings_add_feed_category"
-        android:layout_marginBottom="@dimen/margin_add_feed"
-        android:layout_marginTop="@dimen/margin_add_feed"
+        android:layout_margin="@dimen/margin_add_feed"
         android:alpha="0.87"
         android:fontFamily="Roboto Medium"
         android:gravity="center"
@@ -154,10 +151,13 @@
         android:textSize="@dimen/font_add_feed" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_add_feed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_settings_add_feed_use_feed"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/margin_add_feed"
+        android:background="@color/white"
         android:text="@string/bt_settings_add_feed" />
 
 

@@ -1,10 +1,14 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.sqlTables;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import com.example.wideking.myapplication.Helper.SQLDBHelper;
+import com.example.wideking.myapplication.feed.FeedItem;
+import com.example.wideking.myapplication.sqlCommands.SQLCommandsFeedSites;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

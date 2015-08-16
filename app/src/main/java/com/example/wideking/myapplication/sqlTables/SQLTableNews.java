@@ -1,10 +1,14 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.sqlTables;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+
+import com.example.wideking.myapplication.Helper.SQLDBHelper;
+import com.example.wideking.myapplication.news.News;
+import com.example.wideking.myapplication.sqlCommands.SQLCommandsNewsFeed;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +18,7 @@ import java.util.Date;
 public class SQLTableNews {
 
 
-    protected static void addNews(ArrayList<News> news, Context ctx, String tableName) {
+    public static void addNews(ArrayList<News> news, Context ctx, String tableName) {
         createNewsTable(ctx, tableName);
         ContentValues values = new ContentValues();//one contentValues object for NewsList
         Log.d("TAG_DB_NewsSize", Integer.toString(news.size()));
@@ -34,10 +38,10 @@ public class SQLTableNews {
     }
 
 
-    protected static ArrayList<News> getNews(Context ctx, String tableName) {
+    public static ArrayList<News> getNews(Context ctx, String tableName) {
         ArrayList<News> newsList = new ArrayList<>();
 
-        Cursor db_item = SQLDBHelper.db.query("News_" + tableName, null, null, null, null, null, SQLCommandsNewsFeed.COLUMN_TIME + " DESC ");
+        Cursor db_item = SQLDBHelper.db.query("News_" + tableName, null, null, null, null, null, null);
         if (db_item.moveToFirst())//If row exist do following
         {
             do {//Create news object with information from db.

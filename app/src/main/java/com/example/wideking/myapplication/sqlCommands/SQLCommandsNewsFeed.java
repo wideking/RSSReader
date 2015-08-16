@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.sqlCommands;
 
 import android.provider.BaseColumns;
 

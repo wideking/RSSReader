@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.settings;
 
 /**
  * Created by widek on 29.7.2015..

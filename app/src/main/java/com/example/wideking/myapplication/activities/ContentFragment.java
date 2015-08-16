@@ -1,7 +1,10 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,9 +19,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.wideking.myapplication.Helper.DataHelper;
+import com.example.wideking.myapplication.Listeners.onExceptionEventListener;
+import com.example.wideking.myapplication.R;
+import com.example.wideking.myapplication.feed.EditFeedSourcesAdapter;
+import com.example.wideking.myapplication.feed.FeedItem;
+import com.example.wideking.myapplication.news.NewsAdapter;
+import com.example.wideking.myapplication.parser.TestParser;
+import com.example.wideking.myapplication.settings.SettingsEditFeed;
+import com.example.wideking.myapplication.settings.SettingsEditFeedAdapter;
+import com.example.wideking.myapplication.sqlTables.SQLTableFeedSites;
+import com.example.wideking.myapplication.sqlTables.SQLTableUserSettings;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,24 +43,83 @@ import java.util.Date;
  * Class for creating Fragment for displaying news.
  * Created by widek on 24.7.2015..
  */
-public class ContentFragment extends Fragment {
+public class ContentFragment extends Fragment implements onExceptionEventListener {
 
 
     private static EditFeedSourcesAdapter feedSourcesAdapter;
+    EditText etAddFeedURL;
+    EditText etAddFeedName;
+    CheckBox addFeedUseFeed;
+    AutoCompleteTextView addFeedCategory;
+    Dialog.OnClickListener onDialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            dialogInterface.dismiss();
+        }
+    };
     private ListView lvList;
     private ListView lvSettings;
     private ListView lvEditFeedSources;
     private NewsAdapter newsAdapter;
     private ArrayList<SettingsEditFeed> settingsArray;
     private SettingsEditFeedAdapter settingsAdapter;
-    private String category;
     private Context ctx;
-    View.OnClickListener onClickListener = new View.OnClickListener() {
+    public View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int id = view.getId();
             InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
             switch (id) {
+                case R.id.rl_add_feed:
+                    Log.d("TAG_OnClick", "on rl add feed");
+                    view.requestFocus();
+                    imm.hideSoftInputFromInputMethod(getActivity().getCurrentFocus().getWindowToken(), 0);
+                    break;
+                case R.id.btn_add_feed:
+                    view.requestFocus();
+                    imm.hideSoftInputFromInputMethod(getActivity().getCurrentFocus().getWindowToken(), 0);
+                    boolean fieldInitialized = true;
+                    String errorMessage = "\nFollowing problems occurred: ";
+                    String category = addFeedCategory.getText().toString();
+
+                    if ("".equals(category)) {
+                        fieldInitialized = false;
+                        errorMessage += "Category not set!";
+                    }
+                    String name = etAddFeedName.getText().toString();
+
+                    if ("".equals(name)) {
+                        fieldInitialized = false;
+                        errorMessage += "\nName not set!";
+                    }
+
+                    String url = etAddFeedURL.getText().toString();
+
+                    if ("".equals(url)) {
+                        fieldInitialized = false;
+                        errorMessage += "\nURL not set!";
+                    }
+                    boolean useFeed = addFeedUseFeed.isChecked();
+
+                    if (fieldInitialized) {
+                        FeedItem feed = new FeedItem(name, url, category, new Date(0), useFeed ? 1 : 0);
+                        TestParser testParser = new TestParser(feed, ctx, getOnExceptionEventListener());
+                    } else {
+
+                        final AddNewsAlertDialog.Builder alertBuilder = new AddNewsAlertDialog.Builder(ctx);
+                        alertBuilder.setMessage(errorMessage);
+                        final AlertDialog alertDialog = alertBuilder.create();
+                        alertBuilder.setNeutralButton("OK", new AlertDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+
+
+                    }
+                    break;
 
                 case R.id.btn_settings_save:
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -80,7 +155,7 @@ public class ContentFragment extends Fragment {
                 Date maxDate = new Date();
                 maxDate.setTime(new Date().getTime() - dateFromSettings * 1000 * 60 * 60 * 24);//set's time to current time - days from settings.
 
-                newsAdapter = new NewsAdapter(container.getContext(), DataHelperClass.getNewsListByDate(maxDate, container.getContext()));
+                newsAdapter = new NewsAdapter(container.getContext(), DataHelper.getNewsListByDate(maxDate, container.getContext()));
 
                 lvList.setAdapter(newsAdapter);
                 newsAdapter.notifyDataSetChanged();
@@ -131,15 +206,19 @@ public class ContentFragment extends Fragment {
                 Log.d("TAG_addFeed", "hi from add feed");
                 rootView = inflater.inflate(R.layout.settings_add_feed, container, false);
                 TextView addFeedName = (TextView) rootView.findViewById(R.id.tv_settings_add_feed_name);
-
                 TextView addFeedUrl = (TextView) rootView.findViewById(R.id.tv_settings_add_feed_url);
-                AutoCompleteTextView addFeedCategory = (AutoCompleteTextView) rootView.findViewById(R.id.actv_settings_add_feed_category);
-                ArrayList<String> categories = DataHelperClass.getAllCategories(container.getContext());
+                RelativeLayout rlAddFeed = (RelativeLayout) rootView.findViewById(R.id.rl_add_feed);
+                etAddFeedName = (EditText) rootView.findViewById(R.id.et_settings_add_feed_name);
+                etAddFeedURL = (EditText) rootView.findViewById(R.id.et_settings_add_feed_url);
+                addFeedCategory = (AutoCompleteTextView) rootView.findViewById(R.id.actv_settings_add_feed_category);
+                ArrayList<String> categories = DataHelper.getAllCategories(container.getContext());
                 ArrayAdapter<String> spinnerDataAdapter = new ArrayAdapter<String>(container.getContext(), R.layout.category_spinner_item, categories);
                 addFeedCategory.setAdapter(spinnerDataAdapter);
+                Button btnAddFeed = (Button) rootView.findViewById(R.id.btn_add_feed);
+                addFeedUseFeed = (CheckBox) rootView.findViewById(R.id.cb_settings_add_feed_use_feed);
 
-
-                CheckBox addFeedUseFeed = (CheckBox) rootView.findViewById(R.id.cb_settings_add_feed_use_feed);
+                rlAddFeed.setOnClickListener(onClickListener);
+                btnAddFeed.setOnClickListener(onClickListener);
 
 
                 break;
@@ -152,7 +231,7 @@ public class ContentFragment extends Fragment {
                 rootView = inflater.inflate(R.layout.news_fragment, container, false);
                 lvList = (ListView) rootView.findViewById(R.id.lv_list_fragment);
 
-                newsAdapter = new NewsAdapter(container.getContext(), DataHelperClass.getNewsListByCategory(category, container.getContext()));
+                newsAdapter = new NewsAdapter(container.getContext(), DataHelper.getNewsListByCategory(category, container.getContext()));
                 lvList.setAdapter(newsAdapter);
                 newsAdapter.notifyDataSetChanged();
 
@@ -237,5 +316,21 @@ public class ContentFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onExceptionEvent(String message, String problem) {
+        AddNewsAlertDialog.Builder alertBuilder = new AddNewsAlertDialog.Builder(ctx);
+        alertBuilder.setMessage(message + " : " + problem);
+        AlertDialog alertDialog;
 
+        alertBuilder.setNeutralButton("Dismiss", onDialogClickListener);
+        alertDialog = alertBuilder.create();
+        alertDialog.show();
+
+
+    }
+
+    public ContentFragment getOnExceptionEventListener() {
+        return this;
+
+    }
 }

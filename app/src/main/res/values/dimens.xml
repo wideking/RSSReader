@@ -15,5 +15,6 @@
     <dimen name="margin_drawer_item_group_name">16dp</dimen>
     <dimen name="padding_drawer_item_group_name">8dp</dimen>
     <dimen name="font_add_feed">20sp</dimen>
+    <dimen name="margin_add_feed_first_item">20dp</dimen>
 
 </resources>

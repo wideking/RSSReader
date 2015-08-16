@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.settings;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.wideking.myapplication.Helper.DataHelper;
+import com.example.wideking.myapplication.R;
 
 import java.util.ArrayList;
 
@@ -111,7 +114,7 @@ public class SettingsEditFeedAdapter extends ArrayAdapter<SettingsEditFeed> {
             Log.d("TAG_EditFeedSpinner", settingsEditFeeds.get(position).getSettingsName());
             Log.d("TAG_EditFeedSpinner", Integer.toString(position));
 
-            ArrayList<String> categories = DataHelperClass.getAllCategories(context);
+            ArrayList<String> categories = DataHelper.getAllCategories(context);
 
             ArrayAdapter<String> spinnerDataAdapter = new ArrayAdapter<String>(context, R.layout.category_spinner_item, categories);
 

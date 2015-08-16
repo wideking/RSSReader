@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.sqlCommands;
 
 /**
  * Created by widek on 27.7.2015..

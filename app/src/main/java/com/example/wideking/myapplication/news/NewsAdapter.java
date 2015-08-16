@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.news;
 
 /**
  * Created by WideKing on 4.1.2015..
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.wideking.myapplication.R;
 
 import java.util.ArrayList;
 

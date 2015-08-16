@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.feed;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

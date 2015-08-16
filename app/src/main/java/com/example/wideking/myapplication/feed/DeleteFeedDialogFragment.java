@@ -1,10 +1,13 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.feed;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import com.example.wideking.myapplication.Helper.DataHelper;
+import com.example.wideking.myapplication.R;
 
 /**
  * Created by widek on 1.8.2015..
@@ -19,7 +22,7 @@ public class DeleteFeedDialogFragment extends DialogFragment {
         builder.setMessage(R.string.delete_feed_text + url)
                 .setPositiveButton(R.string.delete_feed_button_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        DataHelperClass.deleteFeed(url, getActivity().getBaseContext());
+                        DataHelper.deleteFeed(url, getActivity().getBaseContext());
 
                     }
                 })

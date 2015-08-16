@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -14,33 +14,34 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.wideking.myapplication.Helper.DataHelper;
+import com.example.wideking.myapplication.R;
+import com.example.wideking.myapplication.feed.FeedItem;
+import com.example.wideking.myapplication.navigationDrawer.NavigationDrawerCreator;
+import com.example.wideking.myapplication.navigationDrawer.NavigationDrawerItem;
+import com.example.wideking.myapplication.navigationDrawer.NavigationDrawerItemAdapter;
+import com.example.wideking.myapplication.parser.XMLParser;
+import com.example.wideking.myapplication.sqlTables.SQLTableUserSettings;
+
 import java.io.File;
 import java.util.ArrayList;
 
 
 //TODO Implement adding new sources with check if data is parseable and check if data exist.Tell user what is the problem.
-//TODO check XMLParsing, impelemnt way procceed on this input. done
+//TODO check XMLParser, impelemnt way procceed on this input. done
 //TODO create Class for forking asyncTasks. http://developer.android.com/reference/android/os/AsyncTask.html#executeOnExecutor%28java.util.concurrent.Executor,%20Params...%29 http://stackoverflow.com/questions/31768081/how-to-wait-multiple-asynctask-to-finish-their-work
 //TODO when changing to landscape, load fragment that was displayed.
 public class MainActivity extends ActionBarActivity {
     static String URL_BUG_HR = "http://www.bug.hr/rss/vijesti/";
     static String URL_INDEX_HR = "http://www.index.hr/najnovije/rss.ashx";
     static String URL_INDEX_HR_VIJESTI = "http://www.index.hr/vijesti/rss.ashx";
-
+    public ProgressBar progressBar;
+    public TextView progressText;
+    public LinearLayout lv_layout;
     ArrayList<FeedItem> feedItem = new ArrayList<>();
-    ProgressBar progressBar;
-    TextView progressText;
-    LinearLayout lv_layout;
-
-
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
 
-    XMLParsing parsingBugHr;
-    XMLParsing parsingBugHr1;
-    XMLParsing parsingIndexHr;
-    XMLParsing parsingIndexHr2;
-    XMLParsing parsingIndexHr3;
 
 
     @Override
@@ -65,50 +66,30 @@ public class MainActivity extends ActionBarActivity {
             imagesFolder.mkdirs();
         }
 
-        feedItem = DataHelperClass.getSelectedFeed(getApplicationContext());
+        feedItem = DataHelper.getSelectedFeed(getApplicationContext());
         if (feedItem.isEmpty())//If there are no default feeds or no db  parse this default feeds
         {
 
 
-            ArrayList<String> categories = DataHelperClass.getCategoriesFromFeed(getApplicationContext());
-            inicializeDrawer(categories);
+            ArrayList<String> categories = DataHelper.getCategoriesFromFeed(getApplicationContext());
+            initializeDrawer(categories);
             setDisplayFragment(0, "Empty");
+            ArrayList<FeedItem> testFeedList = new ArrayList<>();
+            testFeedList.add(DataHelper.getFeedByName("Index vijesti", "Politics", URL_INDEX_HR_VIJESTI, getApplicationContext()));
+            testFeedList.add(DataHelper.getFeedByName("Index najnovije", "Politics", URL_INDEX_HR, getApplicationContext()));
+            testFeedList.add(DataHelper.getFeedByName("Bug vijesti", "Technology", URL_BUG_HR, getApplicationContext()));
+            testFeedList.add(DataHelper.getFeedByName("24 sata Sport", "Sport", "http://www.24sata.hr/feeds/sport.xml", getApplicationContext()));
+            testFeedList.add(DataHelper.getFeedByName("24 sata Vijesti", "Politics", "http://www.24sata.hr/feeds/news.xml", getApplicationContext()));
+            XMLParser xmlParser = new XMLParser(this, testFeedList);
+            xmlParser.refresh();
 
-
-            parsingIndexHr = new XMLParsing(this, DataHelperClass.getFeedByName("Index vijesti", "Politics", URL_INDEX_HR_VIJESTI, getApplicationContext()));
-            parsingIndexHr.Refresh();
-            parsingBugHr = new XMLParsing(this, DataHelperClass.getFeedByName("Bug vijesti", "Technology", URL_BUG_HR, getApplicationContext()));
-            parsingBugHr.Refresh();
-            parsingBugHr.isTest = true;
-
-            parsingIndexHr2 = new XMLParsing(this, DataHelperClass.getFeedByName("Index najnovije", "Politics", URL_INDEX_HR, getApplicationContext()));
-            parsingIndexHr2.Refresh();
-            parsingIndexHr2.isTest = true;
-
-            parsingBugHr1 = new XMLParsing(this, DataHelperClass.getFeedByName("Bug vijesti", "Technology", URL_BUG_HR, getApplicationContext()));
-            parsingBugHr1.Refresh();
-
-            parsingIndexHr3 = new XMLParsing(this, DataHelperClass.getFeedByName("Index najnovije", "Politics", URL_INDEX_HR, getApplicationContext()));
-            parsingIndexHr3.Refresh();
-            XMLParsing parsing24sataSport = new XMLParsing(this, DataHelperClass.getFeedByName("24 sata Sport", "Sport", "http://www.24sata.hr/feeds/sport.xml", getApplicationContext()));
-            parsing24sataSport.Refresh();
-            parsing24sataSport.isTest = true;
-            XMLParsing parsing24sataNews = new XMLParsing(this, DataHelperClass.getFeedByName("24 sata Vijesti", "Politics", "http://www.24sata.hr/feeds/news.xml", getApplicationContext()));
-            parsing24sataNews.Refresh();
-            parsing24sataNews.isTest = true;
-
-            XMLParsing parsing24sataSport1 = new XMLParsing(this, DataHelperClass.getFeedByName("24 sata Sport", "Sport", "http://www.24sata.hr/feeds/sport.xml", getApplicationContext()));
-            parsing24sataSport1.Refresh();
-
-            XMLParsing parsing24sataNews1 = new XMLParsing(this, DataHelperClass.getFeedByName("24 sata Vijesti", "Politics", "http://www.24sata.hr/feeds/news.xml", getApplicationContext()));
-            parsing24sataNews1.Refresh();
 
 
         } else {
 
             getUpdateFromRSS();
-            ArrayList<String> categories = DataHelperClass.getCategoriesFromFeed(getApplicationContext());
-            inicializeDrawer(categories);
+            ArrayList<String> categories = DataHelper.getCategoriesFromFeed(getApplicationContext());
+            initializeDrawer(categories);
             String defaultFeedCategoryName = getResources().getStringArray(R.array.Default_category)[0];
             String defaultFeedCategoryValue = SQLTableUserSettings.getSettingsValue(defaultFeedCategoryName, getApplicationContext());
             String categoryAddFeed = getResources().getStringArray(R.array.string_settings)[2];
@@ -131,15 +112,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void getUpdateFromRSS() {
-        for (FeedItem feed : feedItem) {
-            Log.d("TAG_GetNewsFromRSS", feed.getFeedName());
-            XMLParsing parser = new XMLParsing(MainActivity.this, DataHelperClass.getFeedByName(feed.getFeedName(), feed.getCategory(), feed.getFeedURL(), getApplicationContext()));
-
-        }
+        XMLParser xmlParser = new XMLParser(this, DataHelper.getSelectedFeed(getApplicationContext()));
+        xmlParser.refresh();
     }
 
 
-    public void inicializeDrawer(ArrayList<String> categories) {
+    public void initializeDrawer(ArrayList<String> categories) {
         NavigationDrawerCreator drawer = new NavigationDrawerCreator(categories, mDrawerLayout, mDrawerList, getApplicationContext());
         mDrawerList.setAdapter(new NavigationDrawerItemAdapter(getApplicationContext(), R.layout.activity_main, drawer.getDrawerItem()));
         // Set the list's click listener
@@ -177,9 +155,6 @@ public class MainActivity extends ActionBarActivity {
      * @param category String type parameter that marks name(category of news) of the clicked item.
      */
     private void setDisplayFragment(int position, String category) {
-        // Create a new fragment and specify the planet to show based on position
-
-        // Highlight the selected item, update the title, and close the drawer
 
         ContentFragment contentFragment = new ContentFragment();
         Bundle args = new Bundle();

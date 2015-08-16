@@ -1,4 +1,4 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.feed;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,6 +15,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.wideking.myapplication.Helper.DataHelper;
+import com.example.wideking.myapplication.R;
+import com.example.wideking.myapplication.sqlTables.SQLTableFeedSites;
 
 import java.util.ArrayList;
 
@@ -84,8 +88,8 @@ public class EditFeedSourcesAdapter extends ArrayAdapter<FeedItem> {
                     adb.setMessage(message + url);
                     adb.setPositiveButton(positiveMessage, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            DataHelperClass.deleteFeed(url, context);
-                            if (!DataHelperClass.doesFeedExist(url, context)) {
+                            DataHelper.deleteFeed(url, context);
+                            if (!DataHelper.doesFeedExist(url, context)) {
                                 deleteFeed(url);
                                 Toast toast = Toast.makeText(context, context.getResources().getString(R.string.feed_deleted_successfully), Toast.LENGTH_SHORT);
 
@@ -180,7 +184,7 @@ public class EditFeedSourcesAdapter extends ArrayAdapter<FeedItem> {
         listViewHolder.urlValue.setText(feedList.get(position).getFeedURL());
         listViewHolder.tv_category.setText(convertView.getResources().getStringArray(R.array.string_edit_sources)[2]);
 
-        ArrayList<String> categories = DataHelperClass.getAllCategories(parent.getContext());
+        ArrayList<String> categories = DataHelper.getAllCategories(parent.getContext());
         ArrayAdapter<String> categoriesAutoCompleteAdapter = new ArrayAdapter<String>(parent.getContext(), R.layout.category_spinner_item, categories);
 
         listViewHolder.actv_category.setAdapter(categoriesAutoCompleteAdapter);

@@ -1,9 +1,13 @@
-package com.example.wideking.myapplication;
+package com.example.wideking.myapplication.sqlTables;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+
+import com.example.wideking.myapplication.Helper.SQLDBHelper;
+import com.example.wideking.myapplication.settings.SettingsEditFeed;
+import com.example.wideking.myapplication.sqlCommands.SQLCommandsSettings;
 
 import java.util.ArrayList;
 
